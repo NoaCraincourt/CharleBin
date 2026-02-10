@@ -1,0 +1,42 @@
+name: Qualité du code
+
+# On déclenche ce robot quand on pousse sur main ou quand on fait une Pull Request vers main
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  analyse-qualite:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Le robot récupère ton code
+    - name: Récupération du code
+      uses: actions/checkout@v3
+
+    # 2. Il installe PHP
+    - name: Installation de PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, xml, ctype, iconv, intl
+
+    # 3. Il installe tes outils (PHPCS, PHPMD...) via Composer
+    - name: Installation des dépendances
+      run: composer install --prefer-dist --no-progress
+
+    # 4. Il lance PHP CS Fixer (en mode vérification seulement, sans modifier)
+    - name: Vérification du style (PHP CS Fixer)
+      run: ./vendor/bin/php-cs-fixer fix lib --dry-run --diff
+      env:
+        PHP_CS_FIXER_IGNORE_ENV: 1
+
+    # 5. Il lance PHP Code Sniffer
+    - name: Vérification du style (PHPCS)
+      run: ./vendor/bin/phpcs --standard=PSR12 lib/
+
+    # 6. Il lance PHP Mess Detector
+    - name: Détection de bugs (PHPMD)
+      run: ./vendor/bin/phpmd lib ansi codesize,unusedcode,naming
