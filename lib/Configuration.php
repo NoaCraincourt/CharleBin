@@ -2,12 +2,13 @@
 /**
  * PrivateBin
  *
- * a zero-knowledge paste bin
+ * A zero-knowledge paste bin
  *
  * @link      https://github.com/PrivateBin/PrivateBin
  * @copyright 2012 Sébastien SAUVAGE (sebsauvage.net)
  * @license   https://www.opensource.org/licenses/zlib-license.php The zlib/libpng License
  * @version   1.5.1
+ * @author    NoaCraincourt
  */
 
 namespace PrivateBin;
@@ -65,7 +66,7 @@ class Configuration
         'expire_options' => array(
             '5min'   => 300,
             '10min'  => 600,
-	    '30min'  => 1800,
+        '30min'  => 1800,
             '1hour'  => 3600,
             '1day'   => 86400,
             '1week'  => 604800,
@@ -248,7 +249,7 @@ class Configuration
     }
 
     /**
-     * get configuration as array
+     * Get configuration as array
      *
      * @return array
      */
@@ -269,7 +270,6 @@ class Configuration
 
     /**
      * get a key from the configuration, typically the main section or all keys
-     *
      * @param string $key
      * @param string $section defaults to main
      * @throws Exception
